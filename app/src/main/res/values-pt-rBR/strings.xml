@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OffTrail</string>
+    <string name="msg_splash">Carregando ...</string>
+    <string name="btn_entrar_login">Entrar</string>
+    <string name="btn_sair_login">Sair</string>
+    <string name="edt_login">Informe seu login</string>
+    <string name="edt_senha">Informe sua senha</string>
+</resources>
