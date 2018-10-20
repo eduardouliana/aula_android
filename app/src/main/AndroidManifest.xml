@@ -9,14 +9,14 @@
         android:roundIcon="@mipmap/offtrail"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.SplashActivity">
+        <activity android:name=".ui.SplashActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.LoginActivity_" />
         <activity
             android:name=".ui.PrincipalActivity"
             android:label="@string/title_activity_principal"

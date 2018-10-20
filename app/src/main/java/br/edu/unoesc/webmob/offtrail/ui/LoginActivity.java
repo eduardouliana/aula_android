@@ -4,23 +4,30 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Fullscreen;
+import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.WindowFeature;
+
 import br.edu.unoesc.webmob.offtrail.R;
 
+@EActivity(R.layout.activity_login)
+@Fullscreen
+@WindowFeature(Window.FEATURE_NO_TITLE)
 public class LoginActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-    }
+    @ViewById
+    EditText edtLogin;
+    @ViewById
+    EditText edtSenha;
+    //faz a mesma coisa que isso
+    //EditText edtLogin = findViewById(R.id.edtLogin);
+    //EditText edtSenha = findViewById(R.id.edtSenha);
 
     public void entrarLogin(View v) {
-        EditText edtLogin = findViewById(R.id.edtLogin);
-        EditText edtSenha = findViewById(R.id.edtSenha);
-
         String strLogin = edtLogin.getText().toString();
         String strSenha = edtSenha.getText().toString();
 
