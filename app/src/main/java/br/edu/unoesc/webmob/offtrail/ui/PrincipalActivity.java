@@ -1,5 +1,6 @@
 package br.edu.unoesc.webmob.offtrail.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import br.edu.unoesc.webmob.offtrail.R;
+import br.edu.unoesc.webmob.offtrail.TrilheiroActivity;
+import br.edu.unoesc.webmob.offtrail.TrilheiroActivity_;
 
 public class PrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,8 +32,8 @@ public class PrincipalActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent itCadastrarTrilheiro = new Intent(PrincipalActivity.this, TrilheiroActivity_.class);
+                startActivity(itCadastrarTrilheiro);
             }
         });
 

@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //strLogin != null && strSenha != null && !strLogin.trim().equals("") && !strSenha.trim().equals("") &&
 
-        if (strLogin.equals("eduardo") && strSenha.equals("eduardo")) {
+        if (strLogin.equals("dudu") && strSenha.equals("dudu")) {
 
             Toast.makeText(this, "Bem vindo " + strLogin.toUpperCase(), Toast.LENGTH_SHORT).show();
             Intent itPrincipal = new Intent(this, PrincipalActivity.class);
