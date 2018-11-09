@@ -16,6 +16,10 @@ public class Grupo_Trilheiro {
     @DatabaseField(canBeNull = false)
     private Date dataCadastro;
 
+    public Grupo_Trilheiro(){
+
+    }
+
     public Integer getCodigo() {
         return codigo;
     }

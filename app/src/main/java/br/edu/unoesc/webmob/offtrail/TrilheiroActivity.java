@@ -11,6 +11,8 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 
+import br.edu.unoesc.webmob.offtrail.R;
+
 @EActivity(R.layout.activity_trilheiro)
 @Fullscreen
 public class TrilheiroActivity extends AppCompatActivity {

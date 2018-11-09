@@ -13,6 +13,12 @@ public class Trilheiro {
     private String idade;
     @DatabaseField(foreign = true, foreignColumnName = "codigo")
     private Moto moto;
+    @DatabaseField
+    private byte[] foto;
+
+    public Trilheiro() {
+
+    }
 
     public Integer getCodigo() {
         return codigo;
@@ -44,5 +50,13 @@ public class Trilheiro {
 
     public void setMoto(Moto moto) {
         this.moto = moto;
+    }
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
     }
 }

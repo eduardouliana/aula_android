@@ -10,7 +10,9 @@ public class Cidade {
     @DatabaseField(canBeNull = false)
     private String nome;
 
-    public Cidade() {}
+    public Cidade() {
+
+    }
 
     public Integer getCodigo() {
         return codigo;

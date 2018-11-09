@@ -12,6 +12,9 @@ public class Usuario {
     @DatabaseField(canBeNull = false)
     private String senha;
 
+    public Usuario(){
+
+}
     public Integer getCodigo() {
         return codigo;
     }
