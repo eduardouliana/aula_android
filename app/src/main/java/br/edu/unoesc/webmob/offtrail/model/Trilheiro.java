@@ -13,7 +13,7 @@ public class Trilheiro {
     @DatabaseField(canBeNull = false)
     private String nome;
     @DatabaseField(canBeNull = false)
-    private String idade;
+    private Integer idade;
     @DatabaseField(foreign = true, foreignColumnName = "codigo")
     private Moto moto;
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
@@ -39,11 +39,11 @@ public class Trilheiro {
         this.nome = nome;
     }
 
-    public String getIdade() {
+    public Integer getIdade() {
         return idade;
     }
 
-    public void setIdade(String idade) {
+    public void setIdade(int idade) {
         this.idade = idade;
     }
 

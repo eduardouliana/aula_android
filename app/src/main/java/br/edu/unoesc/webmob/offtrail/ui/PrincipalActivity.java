@@ -1,8 +1,11 @@
 package br.edu.unoesc.webmob.offtrail.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,17 +15,56 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Fullscreen;
+import org.androidannotations.annotations.UiThread;
+import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.WindowFeature;
+import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.androidannotations.rest.spring.annotations.RestService;
+
+import java.util.List;
 
 import br.edu.unoesc.webmob.offtrail.R;
+import br.edu.unoesc.webmob.offtrail.adapter.TrilheiroAdapter;
+import br.edu.unoesc.webmob.offtrail.model.Usuario;
+import br.edu.unoesc.webmob.offtrail.rest.CidadeClient;
+import br.edu.unoesc.webmob.offtrail.rest.CidadeClient_;
+import br.edu.unoesc.webmob.offtrail.rest.Endereco;
 import br.edu.unoesc.webmob.offtrail.ui.TrilheiroActivity_;
 
+@EActivity(R.layout.activity_principal)
+@Fullscreen
+@WindowFeature(Window.FEATURE_NO_TITLE)
 public class PrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_principal);
+    @ViewById
+    ListView lstTrilheiros;
+
+    @Bean
+    TrilheiroAdapter trilheiroAdapter;
+
+    //injeção das preferências
+    @Pref
+    Configuracao_ configuracao;
+
+    //injeção do cliente rest
+    @RestService
+    CidadeClient cidadeClient;
+
+    ProgressDialog pd;
+
+    @AfterViews
+    public void inicializar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -43,6 +85,30 @@ public class PrincipalActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //recuperar dados do usuário
+        Usuario u = (Usuario) getIntent().getSerializableExtra("usuario");
+
+        Toast.makeText(this, "Seja bem vindo - " + u.getEmail().toUpperCase(), Toast.LENGTH_LONG).show();
+
+        //mudando a cor do fundo da view
+        // View v = toolbar.getRootView();
+        // v.setBackgroundColor(configuracao.cor().get());
+
+        Toast.makeText(this, configuracao.parametro().get(), Toast.LENGTH_LONG).show();
+
+        //para escrever parametros
+        //configuracao.edit().cor().put(Color.BLUE).apply();
+    }
+
+    public void atualizarListaTrilheiros() {
+        lstTrilheiros.setAdapter(trilheiroAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        atualizarListaTrilheiros();
     }
 
     @Override
@@ -83,22 +149,35 @@ public class PrincipalActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        if (id == R.id.nav_sincronizar) {
+            pd = new ProgressDialog(this);
+            pd.setCancelable(false);
+            pd.setTitle("Aguarde consultando ...");
+            pd.setIndeterminate(true);
+            pd.show();
+            consultarCidadePorNome();
+        } else if (id == R.id.nav_preferencias) {
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @UiThread
+    public void mostrarResultado(String resultado) {
+        pd.dismiss();
+        Toast.makeText(this, resultado, Toast.LENGTH_LONG).show();
+    }
+
+    @Background(delay = 1000)
+    public void consultarCidadePorNome() {
+        List<Endereco> e = cidadeClient.getEndereco("Maravilha");
+
+        if (e != null && e.size() > 0) {
+            mostrarResultado(e.get(0).toString());
+
+        }
     }
 }

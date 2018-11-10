@@ -47,8 +47,9 @@ public class LoginActivity extends AppCompatActivity {
             Usuario u = dh.validaLogin(strLogin, strSenha);
 
             if (u != null) {
-                Toast.makeText(this, "Bem vindo " + strLogin.toUpperCase(), Toast.LENGTH_SHORT).show();
-                Intent itPrincipal = new Intent(this, PrincipalActivity.class);
+                //Toast.makeText(this, "Bem vindo " + strLogin.toUpperCase(), Toast.LENGTH_SHORT).show();
+                Intent itPrincipal = new Intent(this, PrincipalActivity_.class);
+                //passando parâmetro para outra tela (chave,valor)
                 itPrincipal.putExtra("usuario", u);
                 startActivity(itPrincipal);
                 finish();
