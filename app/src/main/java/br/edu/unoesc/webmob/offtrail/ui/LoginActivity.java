@@ -14,6 +14,7 @@ import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 
 import br.edu.unoesc.webmob.offtrail.R;
@@ -42,17 +43,21 @@ public class LoginActivity extends AppCompatActivity {
 
         //strLogin != null && strSenha != null && !strLogin.trim().equals("") && !strSenha.trim().equals("") &&
 
-        Usuario u = dh.validaLogin(strLogin,strSenha);
+        if (strLogin != null && strSenha != null) {
+            Usuario u = dh.validaLogin(strLogin, strSenha);
 
-        if (u != null) {
-            Toast.makeText(this, "Bem vindo " + strLogin.toUpperCase(), Toast.LENGTH_SHORT).show();
-            Intent itPrincipal = new Intent(this, PrincipalActivity.class);
-            startActivity(itPrincipal);
-            finish();
+            if (u != null) {
+                Toast.makeText(this, "Bem vindo " + strLogin.toUpperCase(), Toast.LENGTH_SHORT).show();
+                Intent itPrincipal = new Intent(this, PrincipalActivity.class);
+                itPrincipal.putExtra("usuario", u);
+                startActivity(itPrincipal);
+                finish();
+            } else {
+                Toast.makeText(this, "Usuário e senha inválidos", Toast.LENGTH_LONG).show();
+            }
         } else {
-            Toast.makeText(this, "Usuário e senha inválidos", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Preencha os campos", Toast.LENGTH_LONG).show();
         }
-
 
     }
 

@@ -1,4 +1,4 @@
-package br.edu.unoesc.webmob.offtrail;
+package br.edu.unoesc.webmob.offtrail.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

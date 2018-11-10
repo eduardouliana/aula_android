@@ -23,7 +23,7 @@
             android:name=".ui.PrincipalActivity"
             android:label="@string/title_activity_principal"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".TrilheiroActivity_"></activity>
+        <activity android:name=".ui.TrilheiroActivity_"></activity>
     </application>
 
 </manifest>

@@ -14,7 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import br.edu.unoesc.webmob.offtrail.R;
-import br.edu.unoesc.webmob.offtrail.TrilheiroActivity_;
+import br.edu.unoesc.webmob.offtrail.ui.TrilheiroActivity_;
 
 public class PrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
