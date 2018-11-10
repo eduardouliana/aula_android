@@ -13,6 +13,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.WindowFeature;
 
+import java.sql.SQLException;
 import java.util.Iterator;
 
 import br.edu.unoesc.webmob.offtrail.R;
@@ -22,9 +23,6 @@ import br.edu.unoesc.webmob.offtrail.helper.DatabaseHelper;
 @Fullscreen
 @WindowFeature(Window.FEATURE_NO_TITLE)
 public class SplashActivity extends AppCompatActivity {
-
-    @Bean
-    DatabaseHelper dh;
 
     @AfterViews
     @Background(delay=3000)

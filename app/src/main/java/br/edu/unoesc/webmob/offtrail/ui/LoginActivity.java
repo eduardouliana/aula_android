@@ -8,17 +8,26 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
 
+import java.sql.SQLException;
+
 import br.edu.unoesc.webmob.offtrail.R;
+import br.edu.unoesc.webmob.offtrail.helper.DatabaseHelper;
+import br.edu.unoesc.webmob.offtrail.model.Usuario;
 
 @EActivity(R.layout.activity_login)
 @Fullscreen
 @WindowFeature(Window.FEATURE_NO_TITLE)
 public class LoginActivity extends AppCompatActivity {
+
+    @Bean
+    DatabaseHelper dh;
+
     @ViewById
     EditText edtLogin;
     @ViewById
@@ -33,8 +42,9 @@ public class LoginActivity extends AppCompatActivity {
 
         //strLogin != null && strSenha != null && !strLogin.trim().equals("") && !strSenha.trim().equals("") &&
 
-        if (strLogin.equals("dudu") && strSenha.equals("dudu")) {
+        Usuario u = dh.validaLogin(strLogin,strSenha);
 
+        if (u != null) {
             Toast.makeText(this, "Bem vindo " + strLogin.toUpperCase(), Toast.LENGTH_SHORT).show();
             Intent itPrincipal = new Intent(this, PrincipalActivity.class);
             startActivity(itPrincipal);

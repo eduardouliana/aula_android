@@ -12,6 +12,7 @@ import com.j256.ormlite.table.TableUtils;
 import org.androidannotations.annotations.EBean;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import br.edu.unoesc.webmob.offtrail.model.Cidade;
 import br.edu.unoesc.webmob.offtrail.model.Grupo;
@@ -164,5 +165,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void close() {
         super.close();
         cidadeDao = null;
+    }
+
+    public Usuario validaLogin(String login, String senha) {
+        List<Usuario> usuarios = null;
+
+        try {
+            usuarios = getUsuarioDao().queryBuilder().where().eq("email", login).
+                    and().eq("senha", senha).query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (usuarios != null && usuarios.size() > 0) {
+            return usuarios.get(0);
+        }
+        return null;
     }
 }
