@@ -42,6 +42,9 @@ public class TrilheiroItemView extends LinearLayout {
 
     @Bean
     DatabaseHelper dh;
+
+    @Bean
+    TrilheiroAdapter ta;
     public TrilheiroItemView(Context context) {
         super(context);
     }
@@ -77,6 +80,8 @@ public class TrilheiroItemView extends LinearLayout {
                     }
                     //remover trilheiro
                     dh.getTrilheiroDao().delete(trilheiro);
+                    ta.ordenarLista();
+                    ta.notifyDataSetChanged();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

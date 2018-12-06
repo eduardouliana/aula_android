@@ -108,7 +108,8 @@ public class TrilheiroActivity extends AppCompatActivity {
     public void salvarTrilheiro(View v) {
         Trilheiro t = (Trilheiro) getIntent().getSerializableExtra("trilheiro");
         if (t == null) {
-            inserirTrilheiro();
+            t = new Trilheiro();
+            inserirTrilheiro(t);
         } else {
             alterarTrilheiro();
         }
@@ -129,8 +130,8 @@ public class TrilheiroActivity extends AppCompatActivity {
         finish();
     }
 
-    public void inserirTrilheiro() {
-        t = new Trilheiro();
+    public void inserirTrilheiro(Trilheiro t) {
+
         t.setNome(edtNome.getText().toString());
         t.setIdade(Integer.parseInt(edtIdade.getText().toString()));
         t.setMoto((Moto) spnMotos.getSelectedItem());
