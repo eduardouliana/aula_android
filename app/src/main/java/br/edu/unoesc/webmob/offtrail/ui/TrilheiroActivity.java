@@ -2,6 +2,7 @@ package br.edu.unoesc.webmob.offtrail.ui;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -54,6 +55,8 @@ public class TrilheiroActivity extends AppCompatActivity {
     @Bean
     DatabaseHelper dh;
 
+    Trilheiro t;
+
     @AfterViews
     public void inicializar() {
         try {
@@ -62,6 +65,33 @@ public class TrilheiroActivity extends AppCompatActivity {
 
             ArrayAdapter<Grupo> grupos = new ArrayAdapter<Grupo>(this, android.R.layout.simple_spinner_item, dh.getGrupoDao().queryForAll());
             spnGrupos.setAdapter(grupos);
+
+            t = (Trilheiro) getIntent().getSerializableExtra("trilheiro");
+            if (t != null) {
+                edtNome.setText(t.getNome());
+                edtIdade.setText(t.getIdade().toString());
+
+                for (int i = 0; i < spnMotos.getCount(); i++) {
+                    if (spnMotos.getItemAtPosition(i).toString().equals(t.getMoto().toString())) {
+                        spnMotos.setSelection(i);
+                    }
+                }
+
+                for (Grupo_Trilheiro g : dh.getGrupoTrilheiroDao().queryForAll()) {
+                    if (g.getTrilheiro().getCodigo().equals(t.getCodigo())) {
+                        for (int i = 0; i < spnGrupos.getCount(); i++) {
+                            if (spnGrupos.getItemAtPosition(i).toString().equals(g.getGrupo().toString())) {
+                                spnGrupos.setSelection(i);
+                            }
+                        }
+                    }
+                }
+                byte[] myImage = t.getFoto();
+
+                Bitmap bmp = BitmapFactory.decodeByteArray(myImage, 0, myImage.length);
+                imvFoto.setImageBitmap(bmp);
+            }
+
 
         } catch (SQLException e) {
             Log.e(Trilheiro.class.getName(), "Erro ao ler os dados de Moto e Grupo");
@@ -76,20 +106,14 @@ public class TrilheiroActivity extends AppCompatActivity {
     }
 
     public void salvarTrilheiro(View v) {
-        Trilheiro t = new Trilheiro();
-        t.setNome(edtNome.getText().toString());
-        t.setIdade(Integer.parseInt(edtIdade.getText().toString()));
-        t.setMoto((Moto) spnMotos.getSelectedItem());
-
-        //para recuperar e setar a imagem
-        Bitmap bitmap = ((BitmapDrawable) imvFoto.getDrawable()).getBitmap();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        t.setFoto(baos.toByteArray());
+        Trilheiro t = (Trilheiro) getIntent().getSerializableExtra("trilheiro");
+        if (t == null) {
+            inserirTrilheiro();
+        } else {
+            alterarTrilheiro();
+        }
 
         try {
-            dh.getTrilheiroDao().create(t);
-
             Grupo_Trilheiro gt = new Grupo_Trilheiro();
             gt.setTrilheiro(t);
             gt.setGrupo((Grupo) spnGrupos.getSelectedItem());
@@ -103,6 +127,43 @@ public class TrilheiroActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         finish();
+    }
+
+    public void inserirTrilheiro() {
+        t = new Trilheiro();
+        t.setNome(edtNome.getText().toString());
+        t.setIdade(Integer.parseInt(edtIdade.getText().toString()));
+        t.setMoto((Moto) spnMotos.getSelectedItem());
+
+        //para recuperar e setar a imagem
+        Bitmap bitmap = ((BitmapDrawable) imvFoto.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        t.setFoto(baos.toByteArray());
+
+        try {
+            dh.getTrilheiroDao().create(t);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void alterarTrilheiro() {
+        t.setNome(edtNome.getText().toString());
+        t.setIdade(Integer.parseInt(edtIdade.getText().toString()));
+        t.setMoto((Moto) spnMotos.getSelectedItem());
+
+        //para recuperar e setar a imagem
+        Bitmap bitmap = ((BitmapDrawable) imvFoto.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        t.setFoto(baos.toByteArray());
+
+        try {
+            dh.getTrilheiroDao().update(t);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void cancelarTrilheiro(View v) {
